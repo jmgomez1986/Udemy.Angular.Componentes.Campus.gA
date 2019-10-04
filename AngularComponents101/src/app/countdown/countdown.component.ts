@@ -12,25 +12,33 @@ export class CountdownComponent implements OnInit {
 
   @Input() init: number = null;
   public counter: number = 0;
-
+  private countdownTimeRef: any = null;
   constructor() { }
 
   ngOnInit() {
-    this.startCoutdown();
+    this.startCountdown();
   }
 
-  startCoutdown() {
+  startCountdown() {
     if (this.init && this.init > 0) {
+      this.clearTimeout();
       this.counter = this.init;
       this.doCountdown();
     }
   }
 
   doCountdown() {
-     setTimeout(() => {
+    this.countdownTimeRef = setTimeout(() => {
        this.counter = this.counter - 1;
        this.processCount();
      }, 1000);
+  }
+
+  private clearTimeout() {
+    if (this.countdownTimeRef) {
+      clearTimeout(this.countdownTimeRef);
+      this.countdownTimeRef = null;
+    }
   }
 
   processCount() {
